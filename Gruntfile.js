@@ -1,6 +1,7 @@
 // Generated on 2015-07-24 using generator-angular 0.12.1
 'use strict';
 
+var pkg = require('./package.json');
 // # Globbing
 // for performance reasons we're only matching one level down:
 // 'test/spec/{,*/}*.js'
@@ -16,7 +17,8 @@ module.exports = function (grunt) {
   require('jit-grunt')(grunt, {
     useminPrepare: 'grunt-usemin',
     ngtemplates: 'grunt-angular-templates',
-    cdnify: 'grunt-google-cdn'
+    cdnify: 'grunt-google-cdn',
+    buildcontrol: 'grunt-build-control'
   });
 
   // Configurable paths for the application
@@ -66,8 +68,6 @@ module.exports = function (grunt) {
         ]
       }
     },
-
-    // The actual grunt server settings
     connect: {
       options: {
         port: 9000,
@@ -117,8 +117,6 @@ module.exports = function (grunt) {
         }
       }
     },
-
-    // Make sure code styles are up to par and there are no obvious mistakes
     jshint: {
       options: {
         jshintrc: '.jshintrc',
@@ -137,8 +135,6 @@ module.exports = function (grunt) {
         src: ['test/spec/{,*/}*.js']
       }
     },
-
-    // Empties folders to start fresh
     clean: {
       dist: {
         files: [{
@@ -152,8 +148,6 @@ module.exports = function (grunt) {
       },
       server: '.tmp'
     },
-
-    // Add vendor prefixed styles
     autoprefixer: {
       options: {
         browsers: ['last 1 version']
@@ -178,8 +172,6 @@ module.exports = function (grunt) {
         }]
       }
     },
-
-    // Automatically inject Bower components into the app
     wiredep: {
       app: {
         src: ['<%= yeoman.app %>/index.html'],
@@ -210,8 +202,6 @@ module.exports = function (grunt) {
         ignorePath: /(\.\.\/){1,2}bower_components\//
       }
     },
-
-    // Compiles Sass to CSS and generates necessary files if requested
     compass: {
       options: {
         sassDir: '<%= yeoman.app %>/styles',
@@ -239,8 +229,6 @@ module.exports = function (grunt) {
         }
       }
     },
-
-    // Renames files for browser caching purposes
     filerev: {
       dist: {
         src: [
@@ -251,10 +239,6 @@ module.exports = function (grunt) {
         ]
       }
     },
-
-    // Reads HTML for usemin blocks to enable smart builds that automatically
-    // concat, minify and revision files. Creates configurations in memory so
-    // additional tasks can operate on them
     useminPrepare: {
       html: '<%= yeoman.app %>/index.html',
       options: {
@@ -270,8 +254,6 @@ module.exports = function (grunt) {
         }
       }
     },
-
-    // Performs rewrites based on filerev and the useminPrepare configuration
     usemin: {
       html: ['<%= yeoman.dist %>/{,*/}*.html'],
       css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
@@ -287,33 +269,6 @@ module.exports = function (grunt) {
         }
       }
     },
-
-    // The following *-min tasks will produce minified files in the dist folder
-    // By default, your `index.html`'s <!-- Usemin block --> will take care of
-    // minification. These next options are pre-configured if you do not wish
-    // to use the Usemin blocks.
-    // cssmin: {
-    //   dist: {
-    //     files: {
-    //       '<%= yeoman.dist %>/styles/main.css': [
-    //         '.tmp/styles/{,*/}*.css'
-    //       ]
-    //     }
-    //   }
-    // },
-    // uglify: {
-    //   dist: {
-    //     files: {
-    //       '<%= yeoman.dist %>/scripts/scripts.js': [
-    //         '<%= yeoman.dist %>/scripts/scripts.js'
-    //       ]
-    //     }
-    //   }
-    // },
-    // concat: {
-    //   dist: {}
-    // },
-
     imagemin: {
       dist: {
         files: [{
@@ -324,7 +279,6 @@ module.exports = function (grunt) {
         }]
       }
     },
-
     svgmin: {
       dist: {
         files: [{
@@ -335,7 +289,6 @@ module.exports = function (grunt) {
         }]
       }
     },
-
     htmlmin: {
       dist: {
         options: {
@@ -352,7 +305,6 @@ module.exports = function (grunt) {
         }]
       }
     },
-
     ngtemplates: {
       dist: {
         options: {
@@ -365,9 +317,6 @@ module.exports = function (grunt) {
         dest: '.tmp/templateCache.js'
       }
     },
-
-    // ng-annotate tries to make the code safe for minification automatically
-    // by using the Angular long form for dependency injection.
     ngAnnotate: {
       dist: {
         files: [{
@@ -378,15 +327,11 @@ module.exports = function (grunt) {
         }]
       }
     },
-
-    // Replace Google CDN references
     cdnify: {
       dist: {
         html: ['<%= yeoman.dist %>/*.html']
       }
     },
-
-    // Copies remaining files to places other tasks can use
     copy: {
       dist: {
         files: [{
@@ -420,8 +365,6 @@ module.exports = function (grunt) {
         src: '{,*/}*.css'
       }
     },
-
-    // Run some tasks in parallel to speed up the build process
     concurrent: {
       server: [
         'compass:server'
@@ -435,16 +378,26 @@ module.exports = function (grunt) {
         'svgmin'
       ]
     },
-
-    // Test settings
     karma: {
       unit: {
         configFile: 'test/karma.conf.js',
         singleRun: true
       }
+    },
+    buildcontrol: {
+      options: {
+        dir: 'dist',
+        commit: true,
+        push: true,
+        message: 'Built %sourceName% from commit %sourceCommit% on branch %sourceBranch%'
+      },
+      pages: {
+        options: {
+          remote: 'https://github.com/ricmclaughlin/uibootstrap.git',
+          branch: 'gh-pages'
+        }
+      }
     }
-
-    
   });
 
   grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
