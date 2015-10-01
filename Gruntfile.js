@@ -443,8 +443,9 @@ module.exports = function (grunt) {
         singleRun: true
       }
     }
-  });
 
+    
+  });
 
   grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
     if (target === 'dist') {
